@@ -19,6 +19,16 @@ class HookListener
 
     public function onKernelResponse(FilterResponseEvent $event)
     {
+        // Exclude this listener in this excludes paths
+        if (key_exists('excludes', $this->configs)) {
+            $excludes = $this->configs['excludes'];
+            foreach ($excludes as $exclude) {
+                if (preg_match(sprintf('|%s|', $exclude), $event->getRequest()->getPathInfo())) {
+                    return;
+                }
+            }
+        }
+
         $response = $event->getResponse();
 
         if (function_exists('mb_stripos')) {
