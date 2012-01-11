@@ -6,12 +6,18 @@
 
     <parameters>
         <parameter key="hook.listener.class">OS\HookBundle\EventListener\HookListener</parameter>
+        <parameter key="twig.extension.hook.class">OS\HookBundle\Twig\Extension\HookExtension</parameter>
     </parameters>
 
     <services>
         <service id="hook.listener" class="%hook.listener.class%">
             <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" priority="-128" />
             <argument type="service" id="templating.engine.twig" />
+            <argument>%hook_configs%</argument>
+        </service>
+
+        <service id="twig.extension.hook" class="%twig.extension.hook.class%">
+            <tag name="twig.extension" />
             <argument>%hook_configs%</argument>
         </service>
     </services>
