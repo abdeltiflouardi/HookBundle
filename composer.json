@@ -1,0 +1,22 @@
+{
+  "name": "os/hook-bundle",
+  "description": "OS Hook Bundle for Symfony2",
+  "keywords": ["HOOK"],
+  "homepage": "http://github.com/ouardisoft/HookBundle",
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "LOUARDI Abdeltif",
+      "email": "louardi.abdeltif@yahoo.fr",
+      "homepage": "http://phphub.net"
+    }
+  ],
+  "require": {
+    "php": ">=5.2.6"
+  },
+  "autoload": {
+      "psr-0": { "OS\\HookBundle": "" }
+  },
+  "target-dir": "OS/HookBundle"
+}
