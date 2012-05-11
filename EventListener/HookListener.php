@@ -44,8 +44,8 @@ class HookListener
         foreach ($this->configs as $search => $replace) {
             if (false !== $pos = $posrFunction($content, $search)) {
                 $replaceContent = $replace;
-                if (is_array($value)) {
-                    $value = $value[array_rand($value)];
+                if (is_array($replace)) {
+                    $replaceContent = $replace[array_rand($replace)];
                 }
 
                 $content = preg_replace(sprintf('/%s/', $search), $replaceContent, $content);
