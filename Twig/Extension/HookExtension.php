@@ -23,11 +23,16 @@ class HookExtension extends \Twig_Extension
     }
 
     public function hook($key) {
+        $value = null;
         if (array_key_exists($key, $this->configs)) {
-            return $this->configs[$key];
+            $value = $this->configs[$key];
+
+            if (is_array($value)) {
+                $value = $value[array_rand($value)];
+            }
         }
 
-        return null;
+        return $value;
     }
     
     function getName()
