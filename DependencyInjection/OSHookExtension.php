@@ -19,9 +19,24 @@ class OSHookExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        $configs = $configs[0];
+
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
-        $container->setParameter('hook_configs', $configs[0]);
+        $scheme = isset($_SERVER['HTTPS']) || 
+                    (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') ? 'https' : 'http';
+
+        foreach ($configs as $key => $config) {
+            if (is_array($config)) {
+                foreach ($config as $k => $v) {
+                    $configs[$key][$k] = str_replace('{{_scheme}}', $scheme, $v);
+                }
+            } else {
+                $configs[$key] = str_replace('{{_scheme}}', $scheme, $config);
+            }
+        }
+
+        $container->setParameter('hook_configs', $configs);
     }
 }
