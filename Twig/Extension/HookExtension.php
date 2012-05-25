@@ -31,6 +31,9 @@ class HookExtension extends \Twig_Extension
                 $value = $value[array_rand($value)];
             }
         }
+        $scheme = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https' : 'http';
+
+        $value = str_replace('{{_scheme}}', $scheme, $value);
 
         return $value;
     }
