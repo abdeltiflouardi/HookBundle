@@ -31,6 +31,18 @@ class HookListener
             unset($this->configs['excludes']);
         }
 
+        $scheme = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https' : 'http';
+
+        foreach ($this->configs as $key => $config) {
+            if (is_array($config)) {
+                foreach ($config as $k => $v) {
+                    $this->configs[$key][$k] = str_replace('{{_scheme}}', $scheme, $v);
+                }
+            } else {
+                $this->configs[$key] = str_replace('{{_scheme}}', $scheme, $config);
+            }
+        }        
+
         $response = $event->getResponse();
 
         if (function_exists('mb_stripos')) {
